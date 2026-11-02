@@ -1,3 +1,4 @@
+![ci](https://github.com/fjbredenkamp/k-mini/actions/workflows/ci.yml/badge.svg)
 # k-mini
 
 A tiny container runtime and orchestrator in Go, built from scratch to learn

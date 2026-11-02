@@ -1,6 +1,6 @@
 VERSION ?= dev
 COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null)
-LDFLAGS := main.version=$(VERSION) -X main.commit=$(COMMIT)
+LDFLAGS := -X main.version=$(VERSION) -X main.commit=$(COMMIT)
 
 .PHONY: all build run test lint clean
 
