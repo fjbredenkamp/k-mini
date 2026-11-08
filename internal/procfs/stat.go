@@ -1,4 +1,4 @@
-// Reads process info from Linux /proc filesystem
+// Package procfs reads process info from Linux /proc filesystem.
 package procfs
 
 import (
@@ -8,22 +8,22 @@ import (
 	"strings"
 )
 
-// ErrMalform is returned when a stat line can't be parsed
+// ErrMalformed is returned when a stat line can't be parsed.
 var ErrMalformed = errors.New("malformed stat")
 
-// Stat holds the fields of the /proc/<pid>/stat that l-mini uses.
-// Numbers in the comments are filed positions from the proc_pid_stat(5)
+// Stat holds the fields of the /proc/<pid>/stat that K-mini uses.
+// Numbers in the comments are field positions from the proc_pid_stat(5).
 type Stat struct {
 	PID        int    // (1)
-	Comm       string // (2) executable name, without brackets
-	State      string // (3) R running, S sleeping, D disk wait, Z zombie etc
-	PPID       int    // (4) parent PID
-	UTime      uint64 // (14) user-mode CPU time, in clock ticks
-	STime      uint64 // (15) kernel-mode CPU time, in clock ticks
+	Comm       string // (2) executable name, without brackets.
+	State      string // (3) R running, S sleeping, D disk wait, Z zombie etc.
+	PPID       int    // (4) parent PID.
+	UTime      uint64 // (14) user-mode CPU time, in clock ticks.
+	STime      uint64 // (15) kernel-mode CPU time, in clock ticks.
 	NumThreads int    // (20)
-	StartTime  uint64 // (22) start time after boot, in clock ticks
-	VSize      uint64 // (23) virtual memory size, in bytes
-	RSS        uint64 // (24) resident set size, in pages
+	StartTime  uint64 // (22) start time after boot, in clock ticks.
+	VSize      uint64 // (23) virtual memory size, in bytes.
+	RSS        uint64 // (24) resident set size, in pages.
 }
 
 // ParseStat parses the contents of a /proc/<pid>/stat file.
@@ -33,7 +33,7 @@ func ParseStat(data []byte) (Stat, error) {
 	lparen := strings.IndexByte(s, '(')
 	rparen := strings.LastIndexByte(s, ')')
 	if lparen < 0 || rparen < lparen {
-		return Stat{}, fmt.Errorf("%w: no parantheses", ErrMalformed)
+		return Stat{}, fmt.Errorf("%w: no parentheses", ErrMalformed)
 	}
 	pid, err := strconv.Atoi(strings.TrimSpace(s[:lparen]))
 	if err != nil {
